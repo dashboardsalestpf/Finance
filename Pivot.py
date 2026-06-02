@@ -80,6 +80,7 @@ def export_excel(df, branch_name, payment_date, selected_vendor):
         .astype(str)
     )
 
+    payment_list = ", ".join(clean_df['Payment Code'].dropna())
     keterangan_list = ", ".join(clean_df['Keterangan'].dropna())
     grand_total = clean_df['Nominal'].sum()
 
@@ -92,18 +93,21 @@ def export_excel(df, branch_name, payment_date, selected_vendor):
     ws.cell(row=start_row, column=1, value="No Invoice").font = bold
     ws.cell(row=start_row, column=2, value=f" : {invoice_list}")
 
-    ws.cell(row=start_row + 1, column=1, value="Keterangan").font = bold
-    ws.cell(row=start_row + 1, column=2, value=f" : {keterangan_list}")
+    ws.cell(row=start_row + 1, column=1, value="Payment Code").font = bold
+    ws.cell(row=start_row + 1, column=2, value=f" : {payment_list}")
 
-    ws.cell(row=start_row + 2, column=1, value="Total").font = bold
-    ws.cell(row=start_row + 2, column=2, value=f" : {grand_total}")
+    ws.cell(row=start_row + 2, column=1, value="Keterangan").font = bold
+    ws.cell(row=start_row + 2, column=2, value=f" : {keterangan_list}")
 
-    ws.cell(row=start_row + 2, column=2).alignment = Alignment(horizontal='left')
-    ws.cell(row=start_row + 2, column=2).number_format = '#,##0.00'
+    ws.cell(row=start_row + 3, column=1, value="Total").font = bold
+    ws.cell(row=start_row + 3, column=2, value=f" : {grand_total}")
+
+    ws.cell(row=start_row + 3, column=2).alignment = Alignment(horizontal='left')
+    ws.cell(row=start_row + 3, column=2).number_format = '#,##0.00'
 
     # Wrap text (important for long lists)
-    ws.cell(row=start_row, column=2).alignment = Alignment(wrap_text=True)
-    ws.cell(row=start_row + 1, column=2).alignment = Alignment(wrap_text=True)
+    ws.cell(row=start_row + 2, column=1).alignment = Alignment(vertical='center', wrap_text=True)
+    ws.cell(row=start_row + 2, column=2).alignment = Alignment(vertical='center', wrap_text=True)
 
     # ===== Footer =====
     footer_row = start_row + 6
@@ -149,7 +153,7 @@ filtered_df = df[
     (df['Vendor'] == selected_vendor)
 ]
 
-pivot_df = filtered_df[['No Invoice', 'Keterangan', 'Nominal']].copy()
+pivot_df = filtered_df[['No Invoice', 'Payment Code', 'Keterangan', 'Nominal']].copy()
 
 pivot_df = pivot_df.sort_values(by=['No Invoice'])
 
@@ -161,6 +165,7 @@ grand_total = pivot_df['Nominal'].sum()
 
 total_row = pd.DataFrame({
     'No Invoice': [''],
+    'Payment Code': [''],
     'Keterangan': ['Grand Total'],
     'Nominal': [grand_total]
 })
