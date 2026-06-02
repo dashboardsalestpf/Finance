@@ -23,8 +23,10 @@ def connect_gsheet(x):
 # ----- Load Google Sheet into DataFrame -----
 def load_data(x):
     sheet = connect_gsheet(x)
-    data = sheet.get_all_records()
-    df = pd.DataFrame(data)
+    values = sheet.get_all_values()
+    headers = values[0]
+    rows = values[1:]
+    df = pd.DataFrame(rows, columns=headers)
     return df
 
 @st.cache_data
