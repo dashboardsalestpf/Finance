@@ -126,6 +126,12 @@ df, df2, df3, df4 = loading_data()
 
 st.title("Pivot")
 
+if st.button("Reload Data"):
+    time.sleep(1)
+    st.cache_data.clear()
+    df, df2, df3, df4 = loading_data()
+    st.rerun()
+
 # Branch filter
 name_to_branch = dict(zip(df2['Name'], df2['Branch']))
 

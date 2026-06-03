@@ -41,6 +41,12 @@ df, df2, df3, df4 = loading_data()
 
 st.title("Data from Google Sheet")
 
+if st.button("Reload Data"):
+    time.sleep(1)
+    st.cache_data.clear()
+    df, df2, df3, df4 = loading_data()
+    st.rerun()
+
 editable_cols = ["Invoice", "FP", "Surat Jalan", "Refund", "Notes"]
 
 edited_df = st.data_editor(
