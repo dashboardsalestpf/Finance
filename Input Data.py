@@ -80,6 +80,12 @@ def append_to_database(new_data):
 
 st.title("Input Data")
 
+if st.button("Reload Data"):
+    time.sleep(1)
+    st.cache_data.clear()
+    df, df2, df3, df4 = loading_data()
+    st.rerun()
+
 Branch = st.selectbox("Branch", df2['Branch'].sort_values().unique())
 Source = st.selectbox("Source", df3['Source'].sort_values().unique())
 Date = st.date_input("Tanggal Terima")
