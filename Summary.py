@@ -50,7 +50,7 @@ if st.button("Reload Data"):
 editable_cols = ["Invoice", "FP", "Surat Jalan", "Refund", "Notes"]
 
 edited_df = st.data_editor(
-    df,
+    df.drop(columns=["Nomor Ticket"]),
     use_container_width=True,
     column_config={
         "Invoice": st.column_config.SelectboxColumn(

@@ -36,7 +36,8 @@ EXPECTED_COLUMNS = [
     "FP",
     "Surat Jalan",
     "Refund",
-    "Notes"
+    "Notes",
+    "Nomor Ticket"
 ]
 
 def load_data(x):
@@ -75,7 +76,8 @@ def append_to_database(new_data):
             row.get("FP", "Not Done"),
             row.get("Surat Jalan", "Not Done"),
             row.get("Refund", "No Refund"),
-            row.get("Notes", "")
+            row.get("Notes", ""),
+            row.get("Nomor Ticket", "")
         ])
 
 st.title("Input Data")
@@ -94,6 +96,7 @@ No_Invoice = st.text_input("No Invoice")
 Keterangan = st.text_input("Keterangan")
 Price = st.number_input("Nominal Rp.", min_value=0)
 Date2 = st.date_input("Tanggal Payment")
+Ticket = st.text_input("Nomor Ticket")
 
 prefix = f"{Branch}/{yyyymm}/"
 df_live = load_data("Sheet1")
@@ -152,7 +155,8 @@ if st.button("Submit", disabled=is_duplicate):
         "FP": ["Not Done"],
         "Surat Jalan": ["Not Done"],
         "Refund": ["No Refund"],
-        "Notes": [""]
+        "Notes": [""],
+        "Nomor Ticket": [Ticket]
     })
 
     append_to_database(new_data)
